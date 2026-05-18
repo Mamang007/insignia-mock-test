@@ -41,5 +41,25 @@ export const walletService = {
       return walletRepository.getAllTransactions();
     }
     return walletRepository.getTransactionsByUserId(userId);
+  },
+
+  checkUser: async (username: string, currentUserId: string) => {
+    const user = await userRepository.findByUsername(username);
+    if (!user) {
+      const error: any = new Error('User not found');
+      error.status = 404;
+      throw error;
+    }
+
+    if (user.id === currentUserId) {
+      const error: any = new Error('Cannot search for yourself');
+      error.status = 400;
+      throw error;
+    }
+
+    return {
+      exists: true,
+      username: user.username,
+    };
   }
 };

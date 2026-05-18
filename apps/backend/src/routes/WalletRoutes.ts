@@ -96,4 +96,44 @@ router.post("/transfer", authMiddleware, walletController.transfer);
  */
 router.get("/transactions", authMiddleware, walletController.getTransactions);
 
+/**
+ * @openapi
+ * /wallet/check-user/{username}:
+ *   get:
+ *     summary: Check if a username exists
+ *     tags: [Wallet]
+ *     security:
+ *       - cookieAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: username
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: User exists
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     exists:
+ *                       type: boolean
+ *                     username:
+ *                       type: string
+ *       400:
+ *         description: Cannot search for yourself
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: User not found
+ */
+router.get("/check-user/:username", authMiddleware, walletController.checkUser);
+
 export default router;

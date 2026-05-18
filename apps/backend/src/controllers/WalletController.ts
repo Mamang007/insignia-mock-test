@@ -69,4 +69,16 @@ export const walletController = {
       res.status(500).json({ status: "error", message: error.message });
     }
   },
+
+  checkUser: async (req: AuthRequest, res: Response) => {
+    try {
+      const { username } = req.params;
+      const { userId } = req.user!;
+      const data = await walletService.checkUser(username, userId);
+      res.json({ status: "success", data });
+    } catch (error: any) {
+      const status = error.status || 400;
+      res.status(status).json({ status: "error", message: error.message });
+    }
+  },
 };
