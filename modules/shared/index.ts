@@ -18,9 +18,29 @@ export const LoginSchema = z.object({
   password: z.string(),
 });
 
+export const TopupSchema = z.object({
+  amount: z.number({ 
+    required_error: 'Invalid topup amount',
+    invalid_type_error: 'Invalid topup amount' 
+  })
+    .min(1, 'Invalid topup amount')
+    .max(10000000, 'Invalid topup amount'),
+});
+
+export const TransferSchema = z.object({
+  toUsername: z.string().min(3),
+  amount: z.number({ 
+    required_error: 'Invalid Amount',
+    invalid_type_error: 'Invalid Amount' 
+  })
+    .min(1, 'Invalid Amount'),
+});
+
 export type User = z.infer<typeof UserSchema>;
 export type RegisterInput = z.infer<typeof RegisterSchema>;
 export type LoginInput = z.infer<typeof LoginSchema>;
+export type TopupInput = z.infer<typeof TopupSchema>;
+export type TransferInput = z.infer<typeof TransferSchema>;
 
 export interface ApiResponse<T> {
   status: string;
@@ -35,5 +55,11 @@ export const API_ENDPOINTS = {
     LOGIN: '/auth/login',
     REFRESH: '/auth/refresh',
     LOGOUT: '/auth/logout',
+  },
+  WALLET: {
+    BALANCE: '/wallet/balance',
+    TOPUP: '/wallet/topup',
+    TRANSFER: '/wallet/transfer',
+    TRANSACTIONS: '/wallet/transactions',
   },
 };
