@@ -5,19 +5,23 @@ import { TopupInput, TransferInput } from '../../../../modules/shared';
 export const walletService = {
   getBalance: async (userId: string, role: string) => {
     if (role === 'ADMIN') {
-      return walletRepository.getAllBalances();
+      const users = await walletRepository.getAllBalances();
+      return users.map(u => ({ id: u.id, username: u.username, balance: u.balance, role: u.role }));
     }
-    return walletRepository.getUserBalance(userId);
+    const user = await walletRepository.getUserBalance(userId);
+    return { balance: user?.balance };
   },
 
   topup: async (userId: string, input: TopupInput) => {
-    return walletRepository.topup(userId, input.amount);
+    await walletRepository.topup(userId, input.amount);
   },
 
   transfer: async (senderId: string, input: TransferInput) => {
     const receiver = await userRepository.findByUsername(input.toUsername);
     if (!receiver) {
-      throw new Error('Recipient not found');
+      const error: any = new Error('Destination user not found');
+      error.status = 404;
+      throw error;
     }
 
     if (receiver.id === senderId) {
@@ -29,7 +33,7 @@ export const walletService = {
       throw new Error('Insufficient balance');
     }
 
-    return walletRepository.transfer(senderId, receiver.id, input.amount);
+    await walletRepository.transfer(senderId, receiver.id, input.amount);
   },
 
   getTransactions: async (userId: string, role: string) => {

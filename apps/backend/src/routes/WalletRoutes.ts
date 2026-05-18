@@ -39,8 +39,10 @@ router.get('/balance', authMiddleware, walletController.getBalance);
  *               amount:
  *                 type: number
  *     responses:
- *       200:
+ *       204:
  *         description: Top up successful
+ *       400:
+ *         description: Invalid topup amount
  *       401:
  *         description: Unauthorized
  */
@@ -67,12 +69,14 @@ router.post('/topup', authMiddleware, walletController.topup);
  *               amount:
  *                 type: number
  *     responses:
- *       200:
+ *       204:
  *         description: Transfer successful
  *       400:
- *         description: Insufficient balance or invalid recipient
+ *         description: Insufficient balance
  *       401:
  *         description: Unauthorized
+ *       404:
+ *         description: Destination user not found
  */
 router.post('/transfer', authMiddleware, walletController.transfer);
 

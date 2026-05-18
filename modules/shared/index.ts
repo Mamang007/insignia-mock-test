@@ -19,7 +19,9 @@ export const LoginSchema = z.object({
 });
 
 export const TopupSchema = z.object({
-  amount: z.number().positive().min(1).max(10000000),
+  amount: z.number({ invalid_type_error: 'Invalid topup amount' })
+    .min(1, 'Invalid topup amount')
+    .max(10000000, 'Invalid topup amount'),
 });
 
 export const TransferSchema = z.object({

@@ -2,13 +2,14 @@ import { Response } from 'express';
 import { AuthRequest } from '../middleware/authMiddleware';
 import { walletService } from '../services/WalletService';
 import { TopupSchema, TransferSchema } from '../../../../modules/shared';
+import { ZodError } from 'zod';
 
 export const walletController = {
   getBalance: async (req: AuthRequest, res: Response) => {
     try {
       const { userId, role } = req.user!;
-      const balance = await walletService.getBalance(userId, role);
-      res.json({ status: 'success', data: balance });
+      const data = await walletService.getBalance(userId, role);
+      res.json({ status: 'success', data });
     } catch (error: any) {
       res.status(500).json({ status: 'error', message: error.message });
     }
@@ -20,9 +21,12 @@ export const walletController = {
         return res.status(403).json({ status: 'error', message: 'Only users can top up' });
       }
       const input = TopupSchema.parse(req.body);
-      const result = await walletService.topup(req.user.userId, input);
-      res.json({ status: 'success', message: 'Top up successful', data: result });
+      await walletService.topup(req.user.userId, input);
+      res.status(204).send();
     } catch (error: any) {
+      if (error instanceof ZodError) {
+        return res.status(400).json({ status: 'error', message: error.errors[0].message });
+      }
       res.status(400).json({ status: 'error', message: error.message });
     }
   },
@@ -33,10 +37,11 @@ export const walletController = {
         return res.status(403).json({ status: 'error', message: 'Only users can transfer funds' });
       }
       const input = TransferSchema.parse(req.body);
-      const result = await walletService.transfer(req.user.userId, input);
-      res.json({ status: 'success', message: 'Transfer successful', data: result });
+      await walletService.transfer(req.user.userId, input);
+      res.status(204).send();
     } catch (error: any) {
-      res.status(400).json({ status: 'error', message: error.message });
+      const status = error.status || 400;
+      res.status(status).json({ status: 'error', message: error.message });
     }
   },
 
