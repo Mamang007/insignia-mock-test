@@ -19,7 +19,7 @@ export const LoginSchema = z.object({
 });
 
 export const TopupSchema = z.object({
-  amount: z.number().positive().min(1),
+  amount: z.number().positive().min(1).max(10000000),
 });
 
 export const TransferSchema = z.object({
