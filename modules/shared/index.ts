@@ -26,7 +26,8 @@ export const TopupSchema = z.object({
 
 export const TransferSchema = z.object({
   toUsername: z.string().min(3),
-  amount: z.number().positive().min(1),
+  amount: z.number({ invalid_type_error: 'Invalid transfer amount' })
+    .min(1, 'Invalid transfer amount'),
 });
 
 export type User = z.infer<typeof UserSchema>;

@@ -22,7 +22,7 @@ export const walletController = {
       }
       const input = TopupSchema.parse(req.body);
       await walletService.topup(req.user.userId, input);
-      res.status(204).send();
+      res.status(200).json({ status: 'success', message: 'Top up successful' });
     } catch (error: any) {
       if (error instanceof ZodError) {
         return res.status(400).json({ status: 'error', message: error.errors[0].message });
@@ -38,8 +38,11 @@ export const walletController = {
       }
       const input = TransferSchema.parse(req.body);
       await walletService.transfer(req.user.userId, input);
-      res.status(204).send();
+      res.status(200).json({ status: 'success', message: 'Transfer successful' });
     } catch (error: any) {
+      if (error instanceof ZodError) {
+        return res.status(400).json({ status: 'error', message: error.errors[0].message });
+      }
       const status = error.status || 400;
       res.status(status).json({ status: 'error', message: error.message });
     }

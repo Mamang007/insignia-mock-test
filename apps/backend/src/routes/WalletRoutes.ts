@@ -39,7 +39,7 @@ router.get('/balance', authMiddleware, walletController.getBalance);
  *               amount:
  *                 type: number
  *     responses:
- *       204:
+ *       200:
  *         description: Top up successful
  *       400:
  *         description: Invalid topup amount
@@ -69,7 +69,7 @@ router.post('/topup', authMiddleware, walletController.topup);
  *               amount:
  *                 type: number
  *     responses:
- *       204:
+ *       200:
  *         description: Transfer successful
  *       400:
  *         description: Insufficient balance
