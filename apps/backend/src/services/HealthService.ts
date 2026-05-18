@@ -1,18 +1,12 @@
-import { HealthRepository } from '../repositories/HealthRepository';
+import { healthRepository } from '../repositories/HealthRepository';
 
-export class HealthService {
-  private healthRepository: HealthRepository;
-
-  constructor() {
-    this.healthRepository = new HealthRepository();
-  }
-
-  async getHealthStatus() {
-    const dbStatus = await this.healthRepository.getDbStatus();
+export const healthService = {
+  getHealthStatus: async () => {
+    const dbStatus = await healthRepository.getDbStatus();
     return {
       status: 'ok',
       message: 'Backend is running!',
       dbStatus
     };
   }
-}
+};
