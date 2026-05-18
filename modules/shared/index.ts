@@ -18,9 +18,20 @@ export const LoginSchema = z.object({
   password: z.string(),
 });
 
+export const TopupSchema = z.object({
+  amount: z.number().positive().min(1),
+});
+
+export const TransferSchema = z.object({
+  toUsername: z.string().min(3),
+  amount: z.number().positive().min(1),
+});
+
 export type User = z.infer<typeof UserSchema>;
 export type RegisterInput = z.infer<typeof RegisterSchema>;
 export type LoginInput = z.infer<typeof LoginSchema>;
+export type TopupInput = z.infer<typeof TopupSchema>;
+export type TransferInput = z.infer<typeof TransferSchema>;
 
 export interface ApiResponse<T> {
   status: string;
@@ -35,5 +46,11 @@ export const API_ENDPOINTS = {
     LOGIN: '/auth/login',
     REFRESH: '/auth/refresh',
     LOGOUT: '/auth/logout',
+  },
+  WALLET: {
+    BALANCE: '/wallet/balance',
+    TOPUP: '/wallet/topup',
+    TRANSFER: '/wallet/transfer',
+    TRANSACTIONS: '/wallet/transactions',
   },
 };

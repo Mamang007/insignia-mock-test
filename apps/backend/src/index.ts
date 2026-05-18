@@ -7,6 +7,7 @@ import * as dotenv from 'dotenv';
 import path from 'path';
 import healthRoutes from './routes/HealthRoutes';
 import authRoutes from './routes/AuthRoutes';
+import walletRoutes from './routes/WalletRoutes';
 import { specs } from './lib/swagger';
 
 // Load .env from the root directory
@@ -30,6 +31,7 @@ app.use('/docs', swaggerUi.serve, swaggerUi.setup(specs));
 // Routes
 app.use('/', healthRoutes);
 app.use('/auth', authRoutes);
+app.use('/wallet', walletRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
