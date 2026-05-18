@@ -1,10 +1,12 @@
 import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import swaggerUi from 'swagger-ui-express';
 import * as dotenv from 'dotenv';
 import path from 'path';
 import healthRoutes from './routes/HealthRoutes';
+import authRoutes from './routes/AuthRoutes';
 import { specs } from './lib/swagger';
 
 // Load .env from the root directory
@@ -15,7 +17,11 @@ const port = process.env.PORT || 3000;
 
 // Middleware
 app.use(helmet());
-app.use(cors());
+app.use(cors({
+  origin: true, // In production, replace with your frontend URL
+  credentials: true
+}));
+app.use(cookieParser());
 app.use(express.json());
 
 // Swagger Documentation
@@ -23,6 +29,7 @@ app.use('/docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 // Routes
 app.use('/', healthRoutes);
+app.use('/auth', authRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
