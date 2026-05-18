@@ -68,6 +68,9 @@ typings/
 .DS_Store
 Thumbs.db
 
+# Documentation
+docs/TDD.md
+
 # Build outputs
 dist/
 build/

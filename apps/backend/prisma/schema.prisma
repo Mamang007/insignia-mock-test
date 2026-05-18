@@ -1,13 +1,54 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+enum TransactionType {
+  TOPUP
+  TRANSFER
+}
+
+model User {
+  id        String   @id @default(uuid())
+  username  String   @unique
+  password  String
+  role      Role     @default(USER)
+  balance   Decimal  @default(0.0) @db.Decimal(18, 2)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  sentTransactions     Transaction[]  @relation("Sender")
+  receivedTransactions Transaction[]  @relation("Receiver")
+  refreshTokens        RefreshToken[]
+}
+
+model Transaction {
+  id         String          @id @default(uuid())
+  type       TransactionType
+  amount     Decimal         @db.Decimal(18, 2)
+  senderId   String?
+  receiverId String
+  createdAt  DateTime        @default(now())
+
+  sender   User? @relation("Sender", fields: [senderId], references: [id])
+  receiver User  @relation("Receiver", fields: [receiverId], references: [id])
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
 }
