@@ -19,15 +19,21 @@ export const LoginSchema = z.object({
 });
 
 export const TopupSchema = z.object({
-  amount: z.number({ invalid_type_error: 'Invalid topup amount' })
+  amount: z.number({ 
+    required_error: 'Invalid topup amount',
+    invalid_type_error: 'Invalid topup amount' 
+  })
     .min(1, 'Invalid topup amount')
     .max(10000000, 'Invalid topup amount'),
 });
 
 export const TransferSchema = z.object({
   toUsername: z.string().min(3),
-  amount: z.number({ invalid_type_error: 'Invalid transfer amount' })
-    .min(1, 'Invalid transfer amount'),
+  amount: z.number({ 
+    required_error: 'Invalid Amount',
+    invalid_type_error: 'Invalid Amount' 
+  })
+    .min(1, 'Invalid Amount'),
 });
 
 export type User = z.infer<typeof UserSchema>;
