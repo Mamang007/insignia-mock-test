@@ -62,4 +62,8 @@ export const API_ENDPOINTS = {
     TRANSFER: '/wallet/transfer',
     TRANSACTIONS: '/wallet/transactions',
   },
+  STATS: {
+    TOP_TRANSACTIONS: '/stats/top-transactions',
+    TOP_USERS: '/stats/top-users',
+  },
 };
