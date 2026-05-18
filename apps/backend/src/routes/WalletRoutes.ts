@@ -1,6 +1,6 @@
-import { Router } from 'express';
-import { walletController } from '../controllers/WalletController';
-import { authMiddleware } from '../middleware/authMiddleware';
+import { Router } from "express";
+import { walletController } from "../controllers/WalletController";
+import { authMiddleware } from "../middleware/authMiddleware";
 
 const router = Router();
 
@@ -18,7 +18,7 @@ const router = Router();
  *       401:
  *         description: Unauthorized
  */
-router.get('/balance', authMiddleware, walletController.getBalance);
+router.get("/balance", authMiddleware, walletController.getBalance);
 
 /**
  * @openapi
@@ -39,14 +39,14 @@ router.get('/balance', authMiddleware, walletController.getBalance);
  *               amount:
  *                 type: number
  *     responses:
- *       200:
+ *       204:
  *         description: Top up successful
  *       400:
  *         description: Invalid topup amount
  *       401:
  *         description: Unauthorized
  */
-router.post('/topup', authMiddleware, walletController.topup);
+router.post("/topup", authMiddleware, walletController.topup);
 
 /**
  * @openapi
@@ -69,7 +69,7 @@ router.post('/topup', authMiddleware, walletController.topup);
  *               amount:
  *                 type: number
  *     responses:
- *       200:
+ *       204:
  *         description: Transfer successful
  *       400:
  *         description: Insufficient balance
@@ -78,7 +78,7 @@ router.post('/topup', authMiddleware, walletController.topup);
  *       404:
  *         description: Destination user not found
  */
-router.post('/transfer', authMiddleware, walletController.transfer);
+router.post("/transfer", authMiddleware, walletController.transfer);
 
 /**
  * @openapi
@@ -94,6 +94,6 @@ router.post('/transfer', authMiddleware, walletController.transfer);
  *       401:
  *         description: Unauthorized
  */
-router.get('/transactions', authMiddleware, walletController.getTransactions);
+router.get("/transactions", authMiddleware, walletController.getTransactions);
 
 export default router;

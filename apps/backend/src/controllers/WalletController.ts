@@ -24,15 +24,15 @@ export const walletController = {
       }
       const input = TopupSchema.parse(req.body);
       await walletService.topup(req.user.userId, input);
-      res.status(200).json({ status: "success", message: "Top up successful" });
+      res.status(204).json({ status: "success", message: "Top up successful" });
     } catch (error: any) {
       if (error instanceof ZodError) {
-        return res.status(400).json({ 
-          status: 'error', 
-          message: error.issues[0]?.message || 'Validation error' 
+        return res.status(400).json({
+          status: "error",
+          message: error.issues[0]?.message || "Validation error",
         });
       }
-      res.status(400).json({ status: 'error', message: error.message });
+      res.status(400).json({ status: "error", message: error.message });
     }
   },
 
@@ -46,17 +46,17 @@ export const walletController = {
       const input = TransferSchema.parse(req.body);
       await walletService.transfer(req.user.userId, input);
       res
-        .status(200)
+        .status(204)
         .json({ status: "success", message: "Transfer successful" });
     } catch (error: any) {
       if (error instanceof ZodError) {
-        return res.status(400).json({ 
-          status: 'error', 
-          message: error.issues[0]?.message || 'Validation error' 
+        return res.status(400).json({
+          status: "error",
+          message: error.issues[0]?.message || "Validation error",
         });
       }
       const status = error.status || 400;
-      res.status(status).json({ status: 'error', message: error.message });
+      res.status(status).json({ status: "error", message: error.message });
     }
   },
 
