@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Plus, Send } from "lucide-react";
+import { Plus, Send, BarChart2 } from "lucide-react";
 import { useBalance, useTransactions } from "@/features/wallet/api/wallet";
 import { TransactionList } from "@/features/wallet/components/TransactionList";
 
@@ -33,21 +33,29 @@ function UserDashboard() {
         </CardHeader>
       </Card>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-3 gap-3">
         <Link to="/user/top-up">
-          <Button className="w-full h-24 flex flex-col gap-2 shadow-sm" variant="outline">
+          <Button className="w-full h-24 flex flex-col gap-2 shadow-sm p-2" variant="outline">
             <div className="p-2 bg-green-50 rounded-full">
-              <Plus className="text-green-600" size={24} />
+              <Plus className="text-green-600" size={20} />
             </div>
-            <span className="font-bold">Top-up</span>
+            <span className="font-bold text-xs">Top-up</span>
           </Button>
         </Link>
         <Link to="/user/transfer">
-          <Button className="w-full h-24 flex flex-col gap-2 shadow-sm" variant="outline">
+          <Button className="w-full h-24 flex flex-col gap-2 shadow-sm p-2" variant="outline">
             <div className="p-2 bg-blue-50 rounded-full">
-              <Send className="text-blue-600" size={24} />
+              <Send className="text-blue-600" size={20} />
             </div>
-            <span className="font-bold">Transfer</span>
+            <span className="font-bold text-xs">Transfer</span>
+          </Button>
+        </Link>
+        <Link to="/user/stats">
+          <Button className="w-full h-24 flex flex-col gap-2 shadow-sm p-2" variant="outline">
+            <div className="p-2 bg-orange-50 rounded-full">
+              <BarChart2 className="text-orange-600" size={20} />
+            </div>
+            <span className="font-bold text-xs">Stats</span>
           </Button>
         </Link>
       </div>
