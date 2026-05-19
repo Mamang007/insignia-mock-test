@@ -115,6 +115,7 @@ Used to manage persistent sessions and allow for remote revocation.
     - **Step 1:** Recipient Search/Add. Checks database for existence.
     - **Step 2:** Local persistence. Recipients are saved as an array of usernames in `LocalStorage` and displayed as cards.
     - **Step 3:** Execution. Selecting a recipient opens a **Dialog/Modal** to input the amount and submit the transfer API request.
+  - `/user/stats`: Personal Analytics. Displays a Bar Chart of top transactions and a leaderboard of most frequent recipients.
 
 #### 3. Admin Auth Layout (Authenticated Admin)
 
@@ -131,6 +132,7 @@ Used to manage persistent sessions and allow for remote revocation.
 
 - `POST /auth/register`: Public. Register as a `USER`.
 - `POST /auth/login`: Public. Authenticate, create `RefreshToken` in DB, and receive `httpOnly` cookies.
+- `GET /auth/me`: Protected. Retrieve current authenticated user profile.
 - `POST /auth/refresh`: Public. Use valid `RefreshToken` cookie to issue a new `AccessToken`.
 - `POST /auth/logout`: Protected. Delete `RefreshToken` from DB and clear cookies.
 
@@ -220,11 +222,11 @@ Follow these steps to get the project running on your local machine:
    ```
    *Note: If you lack permissions to create a shadow database (e.g., restricted Postgres user), you can use `npx prisma db push` from the `apps/backend` directory instead.*
 6. **Seed Database:**
-   Run the seeder to create initial ADMIN and USER accounts:
+   Run the seeder to create initial accounts (`admin` and `abdan`):
    ```bash
    npm run seed -w backend
    ```
-   *Alternatively:* `npx prisma db seed -w backend` (from the root or backend directory).
+   *Note: Default passwords are `admin123` and `abdan123` respectively.*
 7. **Start Development Environment:**
    Run both frontend and backend concurrently:
 
