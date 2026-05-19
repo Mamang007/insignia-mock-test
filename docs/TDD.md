@@ -193,18 +193,39 @@ Follow these steps to get the project running on your local machine:
    npm install
    ```
 3. **Configure Environment:**
-   Create a `.env` file in the root directory (referencing the `.env.example` if available) and provide your `DATABASE_URL`.
-4. **Initialize Database:**
+   Create a `.env` file in the root directory and provide the necessary values:
+   ```env
+   # Database
+   DATABASE_URL=""
+
+   # Backend Server
+   PORT=3000
+   NODE_ENV="development"
+
+   # Authentication Secrets
+   JWT_ACCESS_SECRET=""
+   JWT_REFRESH_SECRET=""
+
+   # Frontend
+   VITE_API_URL="/api"
+   ```
+4. **Generate Prisma Client:**
+   ```bash
+   npm run prisma:generate -w backend
+   ```
+5. **Initialize Database:**
    Run Prisma migrations to set up the database schema:
    ```bash
    npm run prisma:migrate -w backend
    ```
-5. **Seed Database:**
+   *Note: If you lack permissions to create a shadow database (e.g., restricted Postgres user), you can use `npx prisma db push` from the `apps/backend` directory instead.*
+6. **Seed Database:**
    Run the seeder to create initial ADMIN and USER accounts:
    ```bash
-   npx prisma db seed -w backend
+   npm run seed -w backend
    ```
-6. **Start Development Environment:**
+   *Alternatively:* `npx prisma db seed -w backend` (from the root or backend directory).
+7. **Start Development Environment:**
    Run both frontend and backend concurrently:
 
    ```bash
