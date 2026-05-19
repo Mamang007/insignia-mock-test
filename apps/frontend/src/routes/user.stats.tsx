@@ -13,22 +13,35 @@ import {
 } from 'recharts'
 import { useTopTransactions, useTopUsers } from '@/features/stats/api/stats'
 import { TransactionList } from '@/features/wallet/components/TransactionList'
+import { useAuth } from '@/features/auth/context/auth-context'
 
 export const Route = createFileRoute('/user/stats')({
   component: UserStatsPage,
 })
 
 function UserStatsPage() {
+  const { user } = useAuth()
   const { data: topTxRes, isLoading: isTxLoading } = useTopTransactions()
   const { data: topUsersRes, isLoading: isUsersLoading } = useTopUsers()
 
   const topTransactions = topTxRes?.data || []
   const topRecipients = topUsersRes?.data || []
 
-  const chartData = topTransactions.slice(0, 5).map(tx => ({
-    name: tx.type === 'TOPUP' ? 'Top-up' : `To: ${tx.receiver?.username}`,
-    amount: Number(tx.amount)
-  }))
+  const chartData = topTransactions.slice(0, 5).map(tx => {
+    let name = ''
+    if (tx.type === 'TOPUP' || !tx.senderId) {
+      name = 'Top-up'
+    } else if (tx.receiverId === user?.id) {
+      name = `From: ${tx.sender?.username || 'Unknown'}`
+    } else {
+      name = `To: ${tx.receiver?.username || 'Unknown'}`
+    }
+    
+    return {
+      name,
+      amount: Number(tx.amount)
+    }
+  })
 
   const COLORS = ['#0ea5e9', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'];
 

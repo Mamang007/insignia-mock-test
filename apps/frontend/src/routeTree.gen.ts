@@ -17,6 +17,7 @@ import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as PublicIndexRouteImport } from './routes/_public.index'
 import { Route as UserTransferRouteImport } from './routes/user.transfer'
 import { Route as UserTopUpRouteImport } from './routes/user.top-up'
+import { Route as UserStatsRouteImport } from './routes/user.stats'
 import { Route as AdminUserManagerRouteImport } from './routes/admin.user-manager'
 import { Route as AdminHistoryRouteImport } from './routes/admin.history'
 import { Route as PublicGuestRouteImport } from './routes/_public._guest'
@@ -62,6 +63,11 @@ const UserTopUpRoute = UserTopUpRouteImport.update({
   path: '/top-up',
   getParentRoute: () => UserRoute,
 } as any)
+const UserStatsRoute = UserStatsRouteImport.update({
+  id: '/stats',
+  path: '/stats',
+  getParentRoute: () => UserRoute,
+} as any)
 const AdminUserManagerRoute = AdminUserManagerRouteImport.update({
   id: '/user-manager',
   path: '/user-manager',
@@ -93,6 +99,7 @@ export interface FileRoutesByFullPath {
   '/user': typeof UserRouteWithChildren
   '/admin/history': typeof AdminHistoryRoute
   '/admin/user-manager': typeof AdminUserManagerRoute
+  '/user/stats': typeof UserStatsRoute
   '/user/top-up': typeof UserTopUpRoute
   '/user/transfer': typeof UserTransferRoute
   '/admin/': typeof AdminIndexRoute
@@ -104,6 +111,7 @@ export interface FileRoutesByTo {
   '/': typeof PublicIndexRoute
   '/admin/history': typeof AdminHistoryRoute
   '/admin/user-manager': typeof AdminUserManagerRoute
+  '/user/stats': typeof UserStatsRoute
   '/user/top-up': typeof UserTopUpRoute
   '/user/transfer': typeof UserTransferRoute
   '/admin': typeof AdminIndexRoute
@@ -119,6 +127,7 @@ export interface FileRoutesById {
   '/_public/_guest': typeof PublicGuestRouteWithChildren
   '/admin/history': typeof AdminHistoryRoute
   '/admin/user-manager': typeof AdminUserManagerRoute
+  '/user/stats': typeof UserStatsRoute
   '/user/top-up': typeof UserTopUpRoute
   '/user/transfer': typeof UserTransferRoute
   '/_public/': typeof PublicIndexRoute
@@ -135,6 +144,7 @@ export interface FileRouteTypes {
     | '/user'
     | '/admin/history'
     | '/admin/user-manager'
+    | '/user/stats'
     | '/user/top-up'
     | '/user/transfer'
     | '/admin/'
@@ -146,6 +156,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin/history'
     | '/admin/user-manager'
+    | '/user/stats'
     | '/user/top-up'
     | '/user/transfer'
     | '/admin'
@@ -160,6 +171,7 @@ export interface FileRouteTypes {
     | '/_public/_guest'
     | '/admin/history'
     | '/admin/user-manager'
+    | '/user/stats'
     | '/user/top-up'
     | '/user/transfer'
     | '/_public/'
@@ -231,6 +243,13 @@ declare module '@tanstack/react-router' {
       path: '/top-up'
       fullPath: '/user/top-up'
       preLoaderRoute: typeof UserTopUpRouteImport
+      parentRoute: typeof UserRoute
+    }
+    '/user/stats': {
+      id: '/user/stats'
+      path: '/stats'
+      fullPath: '/user/stats'
+      preLoaderRoute: typeof UserStatsRouteImport
       parentRoute: typeof UserRoute
     }
     '/admin/user-manager': {
@@ -313,12 +332,14 @@ const AdminRouteChildren: AdminRouteChildren = {
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 interface UserRouteChildren {
+  UserStatsRoute: typeof UserStatsRoute
   UserTopUpRoute: typeof UserTopUpRoute
   UserTransferRoute: typeof UserTransferRoute
   UserIndexRoute: typeof UserIndexRoute
 }
 
 const UserRouteChildren: UserRouteChildren = {
+  UserStatsRoute: UserStatsRoute,
   UserTopUpRoute: UserTopUpRoute,
   UserTransferRoute: UserTransferRoute,
   UserIndexRoute: UserIndexRoute,
