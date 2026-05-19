@@ -19,8 +19,9 @@ import { Route as UserTransferRouteImport } from './routes/user.transfer'
 import { Route as UserTopUpRouteImport } from './routes/user.top-up'
 import { Route as AdminUserManagerRouteImport } from './routes/admin.user-manager'
 import { Route as AdminHistoryRouteImport } from './routes/admin.history'
-import { Route as PublicRegisterRouteImport } from './routes/_public.register'
-import { Route as PublicLoginRouteImport } from './routes/_public.login'
+import { Route as PublicGuestRouteImport } from './routes/_public._guest'
+import { Route as PublicGuestRegisterRouteImport } from './routes/_public._guest.register'
+import { Route as PublicGuestLoginRouteImport } from './routes/_public._guest.login'
 
 const UserRoute = UserRouteImport.update({
   id: '/user',
@@ -71,48 +72,51 @@ const AdminHistoryRoute = AdminHistoryRouteImport.update({
   path: '/history',
   getParentRoute: () => AdminRoute,
 } as any)
-const PublicRegisterRoute = PublicRegisterRouteImport.update({
-  id: '/register',
-  path: '/register',
+const PublicGuestRoute = PublicGuestRouteImport.update({
+  id: '/_guest',
   getParentRoute: () => PublicRoute,
 } as any)
-const PublicLoginRoute = PublicLoginRouteImport.update({
+const PublicGuestRegisterRoute = PublicGuestRegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => PublicGuestRoute,
+} as any)
+const PublicGuestLoginRoute = PublicGuestLoginRouteImport.update({
   id: '/login',
   path: '/login',
-  getParentRoute: () => PublicRoute,
+  getParentRoute: () => PublicGuestRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof PublicIndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/user': typeof UserRouteWithChildren
-  '/login': typeof PublicLoginRoute
-  '/register': typeof PublicRegisterRoute
   '/admin/history': typeof AdminHistoryRoute
   '/admin/user-manager': typeof AdminUserManagerRoute
   '/user/top-up': typeof UserTopUpRoute
   '/user/transfer': typeof UserTransferRoute
   '/admin/': typeof AdminIndexRoute
   '/user/': typeof UserIndexRoute
+  '/login': typeof PublicGuestLoginRoute
+  '/register': typeof PublicGuestRegisterRoute
 }
 export interface FileRoutesByTo {
-  '/login': typeof PublicLoginRoute
-  '/register': typeof PublicRegisterRoute
+  '/': typeof PublicIndexRoute
   '/admin/history': typeof AdminHistoryRoute
   '/admin/user-manager': typeof AdminUserManagerRoute
   '/user/top-up': typeof UserTopUpRoute
   '/user/transfer': typeof UserTransferRoute
-  '/': typeof PublicIndexRoute
   '/admin': typeof AdminIndexRoute
   '/user': typeof UserIndexRoute
+  '/login': typeof PublicGuestLoginRoute
+  '/register': typeof PublicGuestRegisterRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_public': typeof PublicRouteWithChildren
   '/admin': typeof AdminRouteWithChildren
   '/user': typeof UserRouteWithChildren
-  '/_public/login': typeof PublicLoginRoute
-  '/_public/register': typeof PublicRegisterRoute
+  '/_public/_guest': typeof PublicGuestRouteWithChildren
   '/admin/history': typeof AdminHistoryRoute
   '/admin/user-manager': typeof AdminUserManagerRoute
   '/user/top-up': typeof UserTopUpRoute
@@ -120,6 +124,8 @@ export interface FileRoutesById {
   '/_public/': typeof PublicIndexRoute
   '/admin/': typeof AdminIndexRoute
   '/user/': typeof UserIndexRoute
+  '/_public/_guest/login': typeof PublicGuestLoginRoute
+  '/_public/_guest/register': typeof PublicGuestRegisterRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -127,32 +133,31 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/user'
-    | '/login'
-    | '/register'
     | '/admin/history'
     | '/admin/user-manager'
     | '/user/top-up'
     | '/user/transfer'
     | '/admin/'
     | '/user/'
-  fileRoutesByTo: FileRoutesByTo
-  to:
     | '/login'
     | '/register'
+  fileRoutesByTo: FileRoutesByTo
+  to:
+    | '/'
     | '/admin/history'
     | '/admin/user-manager'
     | '/user/top-up'
     | '/user/transfer'
-    | '/'
     | '/admin'
     | '/user'
+    | '/login'
+    | '/register'
   id:
     | '__root__'
     | '/_public'
     | '/admin'
     | '/user'
-    | '/_public/login'
-    | '/_public/register'
+    | '/_public/_guest'
     | '/admin/history'
     | '/admin/user-manager'
     | '/user/top-up'
@@ -160,6 +165,8 @@ export interface FileRouteTypes {
     | '/_public/'
     | '/admin/'
     | '/user/'
+    | '/_public/_guest/login'
+    | '/_public/_guest/register'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -240,32 +247,51 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminHistoryRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/_public/register': {
-      id: '/_public/register'
-      path: '/register'
-      fullPath: '/register'
-      preLoaderRoute: typeof PublicRegisterRouteImport
+    '/_public/_guest': {
+      id: '/_public/_guest'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof PublicGuestRouteImport
       parentRoute: typeof PublicRoute
     }
-    '/_public/login': {
-      id: '/_public/login'
+    '/_public/_guest/register': {
+      id: '/_public/_guest/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof PublicGuestRegisterRouteImport
+      parentRoute: typeof PublicGuestRoute
+    }
+    '/_public/_guest/login': {
+      id: '/_public/_guest/login'
       path: '/login'
       fullPath: '/login'
-      preLoaderRoute: typeof PublicLoginRouteImport
-      parentRoute: typeof PublicRoute
+      preLoaderRoute: typeof PublicGuestLoginRouteImport
+      parentRoute: typeof PublicGuestRoute
     }
   }
 }
 
+interface PublicGuestRouteChildren {
+  PublicGuestLoginRoute: typeof PublicGuestLoginRoute
+  PublicGuestRegisterRoute: typeof PublicGuestRegisterRoute
+}
+
+const PublicGuestRouteChildren: PublicGuestRouteChildren = {
+  PublicGuestLoginRoute: PublicGuestLoginRoute,
+  PublicGuestRegisterRoute: PublicGuestRegisterRoute,
+}
+
+const PublicGuestRouteWithChildren = PublicGuestRoute._addFileChildren(
+  PublicGuestRouteChildren,
+)
+
 interface PublicRouteChildren {
-  PublicLoginRoute: typeof PublicLoginRoute
-  PublicRegisterRoute: typeof PublicRegisterRoute
+  PublicGuestRoute: typeof PublicGuestRouteWithChildren
   PublicIndexRoute: typeof PublicIndexRoute
 }
 
 const PublicRouteChildren: PublicRouteChildren = {
-  PublicLoginRoute: PublicLoginRoute,
-  PublicRegisterRoute: PublicRegisterRoute,
+  PublicGuestRoute: PublicGuestRouteWithChildren,
   PublicIndexRoute: PublicIndexRoute,
 }
 

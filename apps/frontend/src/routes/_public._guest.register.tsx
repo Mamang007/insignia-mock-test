@@ -1,12 +1,7 @@
-import { createFileRoute, redirect } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 import { RegisterForm } from '@/features/auth/components/RegisterForm'
 
-export const Route = createFileRoute('/_public/register')({
-  beforeLoad: ({ context }) => {
-    if (context.auth.isAuthenticated) {
-      throw redirect({ to: context.auth.isAdmin ? '/admin' : '/user' })
-    }
-  },
+export const Route = createFileRoute('/_public/_guest/register')({
   component: RegisterComponent,
 })
 
