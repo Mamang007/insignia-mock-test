@@ -57,6 +57,12 @@ export const walletService = {
       throw error;
     }
 
+    if (user.role === 'ADMIN') {
+      const error: any = new Error("Can't validate admin");
+      error.status = 400;
+      throw error;
+    }
+
     return {
       exists: true,
       username: user.username,
