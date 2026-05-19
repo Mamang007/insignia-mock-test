@@ -1,46 +1,70 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useAuth } from "@/features/auth/context/auth-context";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Plus, Send } from "lucide-react";
+import { useBalance, useTransactions } from "@/features/wallet/api/wallet";
+import { TransactionList } from "@/features/wallet/components/TransactionList";
 
 export const Route = createFileRoute("/user/")({
   component: UserDashboard,
 });
 
 function UserDashboard() {
-  const { user } = useAuth();
+  const { data: balanceRes, isLoading: isBalanceLoading } = useBalance();
+  const { data: transactionsRes, isLoading: isTxLoading } = useTransactions();
+
+  const balance = balanceRes?.data?.balance ?? 0;
+  const transactions = transactionsRes?.data ?? [];
 
   return (
     <div className="space-y-6">
-      <Card className="bg-primary text-white">
+      <Card className="bg-primary text-white border-none shadow-lg">
         <CardHeader>
-          <CardTitle className="text-lg font-medium opacity-90">
-            Current Balance
+          <CardTitle className="text-sm font-medium opacity-80 uppercase tracking-wider">
+            Total Balance
           </CardTitle>
-          <div className="text-4xl font-bold">
-            Rp {user?.balance?.toLocaleString() || "0.00"}
+          <div className="text-4xl font-bold mt-1">
+            {isBalanceLoading ? (
+              <span className="opacity-50 text-2xl">Loading...</span>
+            ) : (
+              `Rp ${balance.toLocaleString()}`
+            )}
           </div>
         </CardHeader>
       </Card>
 
       <div className="grid grid-cols-2 gap-4">
-        <Button className="h-20 text-lg" variant="outline">
-          Top-up
-        </Button>
-        <Button className="h-20 text-lg" variant="outline">
-          Transfer
-        </Button>
+        <Link to="/user/top-up">
+          <Button className="w-full h-24 flex flex-col gap-2 shadow-sm" variant="outline">
+            <div className="p-2 bg-green-50 rounded-full">
+              <Plus className="text-green-600" size={24} />
+            </div>
+            <span className="font-bold">Top-up</span>
+          </Button>
+        </Link>
+        <Link to="/user/transfer">
+          <Button className="w-full h-24 flex flex-col gap-2 shadow-sm" variant="outline">
+            <div className="p-2 bg-blue-50 rounded-full">
+              <Send className="text-blue-600" size={24} />
+            </div>
+            <span className="font-bold">Transfer</span>
+          </Button>
+        </Link>
       </div>
 
       <div className="space-y-4">
-        <h3 className="font-bold text-lg">Recent Transactions</h3>
-        <Card>
-          <CardContent className="p-0">
-            <div className="p-8 text-center text-gray-500 italic">
-              No transactions yet.
-            </div>
-          </CardContent>
-        </Card>
+        <div className="flex items-center justify-between">
+          <h3 className="font-bold text-lg">Recent Transactions</h3>
+          <Link to="/user" className="text-sm text-primary font-medium hover:underline">
+            View All
+          </Link>
+        </div>
+        
+        {isTxLoading ? (
+          <div className="p-8 text-center text-gray-500">Loading transactions...</div>
+        ) : (
+          <TransactionList transactions={transactions} />
+        )}
       </div>
     </div>
   );
