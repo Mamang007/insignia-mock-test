@@ -1,10 +1,8 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useNavigate } from '@tanstack/react-router';
 import { LoginSchema } from 'shared';
 import type { LoginInput } from 'shared';
-import { useLogin } from '../api/auth';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -16,9 +14,10 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
+import { useAuth } from '../context/auth-context';
+
 export const LoginForm: React.FC = () => {
-  const navigate = useNavigate();
-  const loginMutation = useLogin();
+  const { login } = useAuth();
   const form = useForm<LoginInput>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -29,16 +28,13 @@ export const LoginForm: React.FC = () => {
 
   const onSubmit = async (data: LoginInput) => {
     try {
-      const response = await loginMutation.mutateAsync(data);
-      if (response.data?.user.role === 'ADMIN') {
-        navigate({ to: '/admin' });
-      } else {
-        navigate({ to: '/user' });
-      }
+      await login(data);
     } catch (error) {
       console.error('Login failed:', error);
     }
   };
+
+  const isPending = form.formState.isSubmitting;
 
   return (
     <Form {...form}>
@@ -72,9 +68,9 @@ export const LoginForm: React.FC = () => {
         <Button 
           type="submit" 
           className="w-full" 
-          disabled={loginMutation.isPending}
+          disabled={isPending}
         >
-          {loginMutation.isPending ? 'Logging in...' : 'Login'}
+          {isPending ? 'Logging in...' : 'Login'}
         </Button>
       </form>
     </Form>

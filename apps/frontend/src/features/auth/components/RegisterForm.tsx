@@ -4,7 +4,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate, Link } from '@tanstack/react-router';
 import { RegisterSchema } from 'shared';
 import type { RegisterInput } from 'shared';
-import { useRegister } from '../api/auth';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -16,9 +15,11 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
+import { useAuth } from '../context/auth-context';
+
 export const RegisterForm: React.FC = () => {
   const navigate = useNavigate();
-  const registerMutation = useRegister();
+  const { register } = useAuth();
   const form = useForm<RegisterInput>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
@@ -29,12 +30,14 @@ export const RegisterForm: React.FC = () => {
 
   const onSubmit = async (data: RegisterInput) => {
     try {
-      await registerMutation.mutateAsync(data);
+      await register(data);
       navigate({ to: '/login' });
     } catch (error) {
       console.error('Registration failed:', error);
     }
   };
+
+  const isPending = form.formState.isSubmitting;
 
   return (
     <Form {...form}>
@@ -68,9 +71,9 @@ export const RegisterForm: React.FC = () => {
         <Button 
           type="submit" 
           className="w-full" 
-          disabled={registerMutation.isPending}
+          disabled={isPending}
         >
-          {registerMutation.isPending ? 'Creating wallet...' : 'Create Wallet'}
+          {isPending ? 'Creating wallet...' : 'Create Wallet'}
         </Button>
         <p className="text-center text-sm text-gray-500 mt-4">
           Already have a wallet?{' '}
