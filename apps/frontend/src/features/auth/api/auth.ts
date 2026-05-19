@@ -12,7 +12,7 @@ export const useLogin = () => {
     },
     onSuccess: (response) => {
       if (response.data) {
-        queryClient.setQueryData(['me'], { data: response.data.user });
+        queryClient.setQueryData(['me'], { data: response.data.user, status: 'success', message: 'Logged in' });
       }
     },
   });

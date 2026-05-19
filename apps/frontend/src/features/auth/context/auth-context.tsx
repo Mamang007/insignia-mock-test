@@ -12,8 +12,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const { data: userResponse, isLoading } = useQuery<ApiResponse<User>>({
     queryKey: ['me'],
-    queryFn: () => apiClient.get('/auth/me'), // Assuming /auth/me exists or will exist
+    queryFn: () => apiClient.get('/auth/me'),
     retry: false,
+    staleTime: Infinity, // Keep the session state until manually invalidated or logout
   });
 
   const user = userResponse?.data || null;
@@ -22,7 +23,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     mutationFn: () => apiClient.post('/auth/logout'),
     onSuccess: () => {
       queryClient.setQueryData(['me'], null);
-      // Redirect handled by router or components
+      queryClient.invalidateQueries(); // Clear all other queries on logout
     },
   });
 

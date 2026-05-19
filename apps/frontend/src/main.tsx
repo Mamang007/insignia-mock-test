@@ -26,6 +26,18 @@ declare module '@tanstack/react-router' {
 
 function App() {
   const auth = useAuth()
+
+  if (auth.isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-gray-500 font-medium">Initializing session...</p>
+        </div>
+      </div>
+    )
+  }
+
   return <RouterProvider router={router} context={{ auth }} />
 }
 
