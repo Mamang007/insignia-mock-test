@@ -13,6 +13,11 @@ export default defineConfig(({ mode }) => {
       TanStackRouterVite(),
       react()
     ],
+    resolve: {
+      alias: {
+        "@": path.resolve(__dirname, "./src"),
+      },
+    },
     envDir: '../../',
     server: {
       proxy: {
