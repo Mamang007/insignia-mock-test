@@ -18,6 +18,10 @@ export const TransactionList: React.FC<{ transactions: Transaction[] }> = ({ tra
   const { user } = useAuth();
   const currentUserId = user?.id;
 
+  if (!user) {
+    return <div className="p-8 text-center text-gray-500 italic">Please login to view transactions.</div>;
+  }
+
   if (transactions.length === 0) {
     return (
       <Card>
