@@ -69,7 +69,7 @@ typings/
 Thumbs.db
 
 # Documentation
-docs/TDD.md
+# docs/TDD.md
 
 # Build outputs
 dist/
