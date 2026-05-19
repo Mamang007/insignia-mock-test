@@ -43,6 +43,7 @@ function AdminLayout() {
           <nav className="p-4 space-y-2">
             <Link 
               to="/admin" 
+              activeOptions={{ exact: true }}
               className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-100 [&.active]:bg-primary [&.active]:text-white"
             >
               <LayoutDashboard className="w-5 h-5" />
