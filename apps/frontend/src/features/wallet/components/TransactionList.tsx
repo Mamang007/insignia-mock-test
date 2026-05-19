@@ -31,8 +31,8 @@ export const TransactionList: React.FC<{ transactions: Transaction[] }> = ({ tra
   return (
     <div className="space-y-3">
       {transactions.map((tx) => {
-        const isReceiver = tx.receiverId === currentUserId;
         const isSender = tx.senderId === currentUserId;
+        const isTransfer = tx.type === 'TRANSFER';
         const isTopup = tx.type === 'TOPUP' || !tx.senderId;
 
         let label = '';
@@ -49,23 +49,25 @@ export const TransactionList: React.FC<{ transactions: Transaction[] }> = ({ tra
           Icon = Plus;
           iconBg = 'bg-green-100';
           iconColor = 'text-green-600';
-        } else if (isReceiver) {
-          label = `Transfer from ${tx.sender?.username || 'Unknown'}`;
-          amountPrefix = '+';
-          amountColor = 'text-green-600';
-          Icon = ArrowDownLeft;
-          iconBg = 'bg-green-100';
-          iconColor = 'text-green-600';
-        } else if (isSender) {
-          label = `Transfer to ${tx.receiver?.username || 'Unknown'}`;
-          amountPrefix = '-';
-          amountColor = 'text-red-600';
-          Icon = ArrowUpRight;
-          iconBg = 'bg-red-100';
-          iconColor = 'text-red-600';
+        } else if (isTransfer) {
+          if (isSender) {
+            label = `Transfer to ${tx.receiver?.username || 'Unknown'}`;
+            amountPrefix = '-';
+            amountColor = 'text-red-600';
+            Icon = ArrowUpRight;
+            iconBg = 'bg-red-100';
+            iconColor = 'text-red-600';
+          } else {
+            label = `Transfer from ${tx.sender?.username || 'Unknown'}`;
+            amountPrefix = '+';
+            amountColor = 'text-green-600';
+            Icon = ArrowDownLeft;
+            iconBg = 'bg-green-100';
+            iconColor = 'text-green-600';
+          }
         } else {
           // Fallback for Admin view or other cases
-          label = `${tx.sender?.username} to ${tx.receiver?.username}`;
+          label = `${tx.sender?.username || 'Unknown'} to ${tx.receiver?.username || 'Unknown'}`;
           amountPrefix = '';
           amountColor = 'text-gray-900';
           Icon = ArrowUpRight;
