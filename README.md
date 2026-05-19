@@ -12,7 +12,7 @@ Follow these steps to get the project running on your local machine:
 
 1. **Clone the Repository:**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/Mamang007/insignia-mock-test.git
    cd insignia-mock-test
    ```
 2. **Install Dependencies:**
