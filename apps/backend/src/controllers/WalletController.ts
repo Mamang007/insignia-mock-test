@@ -1,7 +1,7 @@
 import { Response } from "express";
 import { AuthRequest } from "../middleware/authMiddleware";
 import { walletService } from "../services/WalletService";
-import { TopupSchema, TransferSchema } from "../../../../modules/shared";
+import { TopupSchema, TransferSchema } from "shared";
 import { ZodError } from "zod";
 
 export const walletController = {

@@ -9,50 +9,327 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as UserRouteImport } from './routes/user'
+import { Route as AdminRouteImport } from './routes/admin'
+import { Route as PublicRouteImport } from './routes/_public'
+import { Route as UserIndexRouteImport } from './routes/user.index'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as PublicIndexRouteImport } from './routes/_public.index'
+import { Route as UserTransferRouteImport } from './routes/user.transfer'
+import { Route as UserTopUpRouteImport } from './routes/user.top-up'
+import { Route as AdminUserManagerRouteImport } from './routes/admin.user-manager'
+import { Route as AdminHistoryRouteImport } from './routes/admin.history'
+import { Route as PublicGuestRouteImport } from './routes/_public._guest'
+import { Route as PublicGuestRegisterRouteImport } from './routes/_public._guest.register'
+import { Route as PublicGuestLoginRouteImport } from './routes/_public._guest.login'
 
-const IndexRoute = IndexRouteImport.update({
+const UserRoute = UserRouteImport.update({
+  id: '/user',
+  path: '/user',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PublicRoute = PublicRouteImport.update({
+  id: '/_public',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UserIndexRoute = UserIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => UserRoute,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const PublicIndexRoute = PublicIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PublicRoute,
+} as any)
+const UserTransferRoute = UserTransferRouteImport.update({
+  id: '/transfer',
+  path: '/transfer',
+  getParentRoute: () => UserRoute,
+} as any)
+const UserTopUpRoute = UserTopUpRouteImport.update({
+  id: '/top-up',
+  path: '/top-up',
+  getParentRoute: () => UserRoute,
+} as any)
+const AdminUserManagerRoute = AdminUserManagerRouteImport.update({
+  id: '/user-manager',
+  path: '/user-manager',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminHistoryRoute = AdminHistoryRouteImport.update({
+  id: '/history',
+  path: '/history',
+  getParentRoute: () => AdminRoute,
+} as any)
+const PublicGuestRoute = PublicGuestRouteImport.update({
+  id: '/_guest',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicGuestRegisterRoute = PublicGuestRegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => PublicGuestRoute,
+} as any)
+const PublicGuestLoginRoute = PublicGuestLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => PublicGuestRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
+  '/': typeof PublicIndexRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/user': typeof UserRouteWithChildren
+  '/admin/history': typeof AdminHistoryRoute
+  '/admin/user-manager': typeof AdminUserManagerRoute
+  '/user/top-up': typeof UserTopUpRoute
+  '/user/transfer': typeof UserTransferRoute
+  '/admin/': typeof AdminIndexRoute
+  '/user/': typeof UserIndexRoute
+  '/login': typeof PublicGuestLoginRoute
+  '/register': typeof PublicGuestRegisterRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
+  '/': typeof PublicIndexRoute
+  '/admin/history': typeof AdminHistoryRoute
+  '/admin/user-manager': typeof AdminUserManagerRoute
+  '/user/top-up': typeof UserTopUpRoute
+  '/user/transfer': typeof UserTransferRoute
+  '/admin': typeof AdminIndexRoute
+  '/user': typeof UserIndexRoute
+  '/login': typeof PublicGuestLoginRoute
+  '/register': typeof PublicGuestRegisterRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
+  '/_public': typeof PublicRouteWithChildren
+  '/admin': typeof AdminRouteWithChildren
+  '/user': typeof UserRouteWithChildren
+  '/_public/_guest': typeof PublicGuestRouteWithChildren
+  '/admin/history': typeof AdminHistoryRoute
+  '/admin/user-manager': typeof AdminUserManagerRoute
+  '/user/top-up': typeof UserTopUpRoute
+  '/user/transfer': typeof UserTransferRoute
+  '/_public/': typeof PublicIndexRoute
+  '/admin/': typeof AdminIndexRoute
+  '/user/': typeof UserIndexRoute
+  '/_public/_guest/login': typeof PublicGuestLoginRoute
+  '/_public/_guest/register': typeof PublicGuestRegisterRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/user'
+    | '/admin/history'
+    | '/admin/user-manager'
+    | '/user/top-up'
+    | '/user/transfer'
+    | '/admin/'
+    | '/user/'
+    | '/login'
+    | '/register'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/admin/history'
+    | '/admin/user-manager'
+    | '/user/top-up'
+    | '/user/transfer'
+    | '/admin'
+    | '/user'
+    | '/login'
+    | '/register'
+  id:
+    | '__root__'
+    | '/_public'
+    | '/admin'
+    | '/user'
+    | '/_public/_guest'
+    | '/admin/history'
+    | '/admin/user-manager'
+    | '/user/top-up'
+    | '/user/transfer'
+    | '/_public/'
+    | '/admin/'
+    | '/user/'
+    | '/_public/_guest/login'
+    | '/_public/_guest/register'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
+  PublicRoute: typeof PublicRouteWithChildren
+  AdminRoute: typeof AdminRouteWithChildren
+  UserRoute: typeof UserRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
+    '/user': {
+      id: '/user'
+      path: '/user'
+      fullPath: '/user'
+      preLoaderRoute: typeof UserRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_public': {
+      id: '/_public'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof PublicRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/user/': {
+      id: '/user/'
+      path: '/'
+      fullPath: '/user/'
+      preLoaderRoute: typeof UserIndexRouteImport
+      parentRoute: typeof UserRoute
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_public/': {
+      id: '/_public/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof PublicIndexRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/user/transfer': {
+      id: '/user/transfer'
+      path: '/transfer'
+      fullPath: '/user/transfer'
+      preLoaderRoute: typeof UserTransferRouteImport
+      parentRoute: typeof UserRoute
+    }
+    '/user/top-up': {
+      id: '/user/top-up'
+      path: '/top-up'
+      fullPath: '/user/top-up'
+      preLoaderRoute: typeof UserTopUpRouteImport
+      parentRoute: typeof UserRoute
+    }
+    '/admin/user-manager': {
+      id: '/admin/user-manager'
+      path: '/user-manager'
+      fullPath: '/admin/user-manager'
+      preLoaderRoute: typeof AdminUserManagerRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/history': {
+      id: '/admin/history'
+      path: '/history'
+      fullPath: '/admin/history'
+      preLoaderRoute: typeof AdminHistoryRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_public/_guest': {
+      id: '/_public/_guest'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof PublicGuestRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/_guest/register': {
+      id: '/_public/_guest/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof PublicGuestRegisterRouteImport
+      parentRoute: typeof PublicGuestRoute
+    }
+    '/_public/_guest/login': {
+      id: '/_public/_guest/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof PublicGuestLoginRouteImport
+      parentRoute: typeof PublicGuestRoute
     }
   }
 }
 
+interface PublicGuestRouteChildren {
+  PublicGuestLoginRoute: typeof PublicGuestLoginRoute
+  PublicGuestRegisterRoute: typeof PublicGuestRegisterRoute
+}
+
+const PublicGuestRouteChildren: PublicGuestRouteChildren = {
+  PublicGuestLoginRoute: PublicGuestLoginRoute,
+  PublicGuestRegisterRoute: PublicGuestRegisterRoute,
+}
+
+const PublicGuestRouteWithChildren = PublicGuestRoute._addFileChildren(
+  PublicGuestRouteChildren,
+)
+
+interface PublicRouteChildren {
+  PublicGuestRoute: typeof PublicGuestRouteWithChildren
+  PublicIndexRoute: typeof PublicIndexRoute
+}
+
+const PublicRouteChildren: PublicRouteChildren = {
+  PublicGuestRoute: PublicGuestRouteWithChildren,
+  PublicIndexRoute: PublicIndexRoute,
+}
+
+const PublicRouteWithChildren =
+  PublicRoute._addFileChildren(PublicRouteChildren)
+
+interface AdminRouteChildren {
+  AdminHistoryRoute: typeof AdminHistoryRoute
+  AdminUserManagerRoute: typeof AdminUserManagerRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminHistoryRoute: AdminHistoryRoute,
+  AdminUserManagerRoute: AdminUserManagerRoute,
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
+interface UserRouteChildren {
+  UserTopUpRoute: typeof UserTopUpRoute
+  UserTransferRoute: typeof UserTransferRoute
+  UserIndexRoute: typeof UserIndexRoute
+}
+
+const UserRouteChildren: UserRouteChildren = {
+  UserTopUpRoute: UserTopUpRoute,
+  UserTransferRoute: UserTransferRoute,
+  UserIndexRoute: UserIndexRoute,
+}
+
+const UserRouteWithChildren = UserRoute._addFileChildren(UserRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+  PublicRoute: PublicRouteWithChildren,
+  AdminRoute: AdminRouteWithChildren,
+  UserRoute: UserRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

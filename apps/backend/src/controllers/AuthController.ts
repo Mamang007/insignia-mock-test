@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { authService } from '../services/AuthService';
-import { RegisterSchema, LoginSchema } from '../../../../modules/shared';
+import { RegisterSchema, LoginSchema } from 'shared';
 
 export const authController = {
   register: async (req: Request, res: Response) => {
@@ -84,5 +84,17 @@ export const authController = {
     } catch (error: any) {
       res.status(500).json({ status: 'error', message: error.message });
     }
+  },
+
+  getMe: async (req: Request, res: Response) => {
+    // AuthRequest from middleware puts user in req.user
+    const user = (req as any).user;
+    if (!user) {
+      return res.status(401).json({ status: 'error', message: 'Not authenticated' });
+    }
+    res.json({
+      status: 'success',
+      data: user
+    });
   }
 };
