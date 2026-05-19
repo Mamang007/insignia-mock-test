@@ -4,17 +4,19 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiClient } from '@/lib/axios';
 import type { AuthContextType } from '../types';
 import type { User, ApiResponse } from 'shared';
+import { useNavigate } from '@tanstack/react-router';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const { data: userResponse, isLoading } = useQuery<ApiResponse<User>>({
     queryKey: ['me'],
     queryFn: () => apiClient.get('/auth/me'),
     retry: false,
-    staleTime: Infinity, // Keep the session state until manually invalidated or logout
+    staleTime: Infinity,
   });
 
   const user = userResponse?.data || null;
@@ -23,7 +25,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     mutationFn: () => apiClient.post('/auth/logout'),
     onSuccess: () => {
       queryClient.setQueryData(['me'], null);
-      queryClient.invalidateQueries(); // Clear all other queries on logout
+      queryClient.clear(); // Clear everything including cache
+      navigate({ to: '/login' });
     },
   });
 

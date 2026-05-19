@@ -1,4 +1,4 @@
-import { createFileRoute, Link, Outlet, useNavigate } from '@tanstack/react-router'
+import { createFileRoute, Link, Outlet } from '@tanstack/react-router'
 import { useAuth } from '@/features/auth/context/auth-context'
 import { Button } from '@/components/ui/button'
 
@@ -8,12 +8,6 @@ export const Route = createFileRoute('/_public')({
 
 function PublicLayout() {
   const { isAuthenticated, logout, isAdmin } = useAuth()
-  const navigate = useNavigate()
-
-  const handleLogout = async () => {
-    await logout()
-    navigate({ to: '/login' })
-  }
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -28,7 +22,7 @@ function PublicLayout() {
                 <Button variant="ghost" asChild>
                   <Link to={isAdmin ? '/admin' : '/user'}>Dashboard</Link>
                 </Button>
-                <Button variant="outline" onClick={handleLogout}>
+                <Button variant="outline" onClick={() => logout()}>
                   Logout
                 </Button>
               </>

@@ -1,4 +1,4 @@
-import { createFileRoute, Link, Outlet, useNavigate, redirect } from '@tanstack/react-router'
+import { createFileRoute, Link, Outlet, redirect } from '@tanstack/react-router'
 import { useAuth } from '@/features/auth/context/auth-context'
 import { Button } from '@/components/ui/button'
 
@@ -16,12 +16,6 @@ export const Route = createFileRoute('/user')({
 
 function UserLayout() {
   const { user, logout } = useAuth()
-  const navigate = useNavigate()
-
-  const handleLogout = async () => {
-    await logout()
-    navigate({ to: '/login' })
-  }
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center">
@@ -32,7 +26,7 @@ function UserLayout() {
           </Link>
           <div className="flex items-center gap-4">
             <span className="text-sm text-gray-600">Hello, {user?.username}</span>
-            <Button variant="ghost" size="sm" onClick={handleLogout}>
+            <Button variant="ghost" size="sm" onClick={() => logout()}>
               Logout
             </Button>
           </div>
