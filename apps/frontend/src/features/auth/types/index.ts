@@ -1,4 +1,4 @@
-import type { User } from '../../../../../../modules/shared';
+import type { User } from 'shared';
 
 export interface AuthContextType {
   user: User | null;

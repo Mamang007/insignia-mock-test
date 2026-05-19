@@ -2,8 +2,8 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from '@tanstack/react-router';
-import { LoginSchema } from '../../../../../../modules/shared';
-import type { LoginInput } from '../../../../../../modules/shared';
+import { LoginSchema } from 'shared';
+import type { LoginInput } from 'shared';
 import { useLogin } from '../api/auth';
 import { Button } from '@/components/ui/button';
 import {

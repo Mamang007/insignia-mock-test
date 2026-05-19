@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { authService } from '../services/AuthService';
-import { RegisterSchema, LoginSchema } from '../../../../modules/shared';
+import { RegisterSchema, LoginSchema } from 'shared';
 
 export const authController = {
   register: async (req: Request, res: Response) => {

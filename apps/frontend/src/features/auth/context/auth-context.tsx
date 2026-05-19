@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiClient } from '@/lib/axios';
 import type { AuthContextType } from '../types';
-import type { User, ApiResponse } from '../../../../../../modules/shared';
+import type { User, ApiResponse } from 'shared';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 

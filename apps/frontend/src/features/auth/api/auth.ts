@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiClient } from '@/lib/axios';
-import type { LoginInput, RegisterInput, ApiResponse, User } from '../../../../../../modules/shared';
+import type { LoginInput, RegisterInput, ApiResponse, User } from 'shared';
 
 export const useLogin = () => {
   const queryClient = useQueryClient();

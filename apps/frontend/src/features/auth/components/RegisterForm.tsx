@@ -2,8 +2,8 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate, Link } from '@tanstack/react-router';
-import { RegisterSchema } from '../../../../../../modules/shared';
-import type { RegisterInput } from '../../../../../../modules/shared';
+import { RegisterSchema } from 'shared';
+import type { RegisterInput } from 'shared';
 import { useRegister } from '../api/auth';
 import { Button } from '@/components/ui/button';
 import {
