@@ -82,4 +82,18 @@ router.post('/refresh', authController.refresh);
  */
 router.post('/logout', authController.logout);
 
+/**
+ * @openapi
+ * /auth/me:
+ *   get:
+ *     summary: Get current authenticated user
+ *     tags: [Authentication]
+ *     responses:
+ *       200:
+ *         description: User found
+ *       401:
+ *         description: Not authenticated
+ */
+router.get('/me', authMiddleware, authController.getMe);
+
 export default router;
