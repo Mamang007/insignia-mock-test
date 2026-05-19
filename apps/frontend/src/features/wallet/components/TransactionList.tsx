@@ -1,19 +1,27 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { ArrowUpRight, ArrowDownLeft, Plus } from 'lucide-react';
+import { useAuth } from '@/features/auth/context/auth-context';
 
 interface Transaction {
   id: string;
   type: 'TOPUP' | 'TRANSFER';
   amount: number;
-  senderId?: string;
+  senderId?: string | null;
   receiverId: string;
   createdAt: string;
-  sender?: { username: string };
-  receiver?: { username: string };
+  sender?: { username: string } | null;
+  receiver?: { username: string } | null;
 }
 
 export const TransactionList: React.FC<{ transactions: Transaction[] }> = ({ transactions }) => {
+  const { user } = useAuth();
+  const currentUserId = user?.id;
+
+  if (!user) {
+    return <div className="p-8 text-center text-gray-500 italic">Please login to view transactions.</div>;
+  }
+
   if (transactions.length === 0) {
     return (
       <Card>
@@ -26,36 +34,78 @@ export const TransactionList: React.FC<{ transactions: Transaction[] }> = ({ tra
 
   return (
     <div className="space-y-3">
-      {transactions.map((tx) => (
-        <Card key={tx.id} className="overflow-hidden">
-          <CardContent className="p-4 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className={`p-2 rounded-full ${
-                tx.type === 'TOPUP' ? 'bg-green-100 text-green-600' : 'bg-blue-100 text-blue-600'
-              }`}>
-                {tx.type === 'TOPUP' ? <Plus size={20} /> : <ArrowUpRight size={20} />}
+      {transactions.map((tx) => {
+        const isSender = tx.senderId === currentUserId;
+        const isTransfer = tx.type === 'TRANSFER';
+        const isTopup = tx.type === 'TOPUP' || !tx.senderId;
+
+        let label = '';
+        let amountPrefix = '';
+        let amountColor = '';
+        let Icon = Plus;
+        let iconBg = '';
+        let iconColor = '';
+
+        if (isTopup) {
+          label = 'Wallet Top-up';
+          amountPrefix = '+';
+          amountColor = 'text-green-600';
+          Icon = Plus;
+          iconBg = 'bg-green-100';
+          iconColor = 'text-green-600';
+        } else if (isTransfer) {
+          if (isSender) {
+            label = `Transfer to ${tx.receiver?.username || 'Unknown'}`;
+            amountPrefix = '-';
+            amountColor = 'text-red-600';
+            Icon = ArrowUpRight;
+            iconBg = 'bg-red-100';
+            iconColor = 'text-red-600';
+          } else {
+            label = `Transfer from ${tx.sender?.username || 'Unknown'}`;
+            amountPrefix = '+';
+            amountColor = 'text-green-600';
+            Icon = ArrowDownLeft;
+            iconBg = 'bg-green-100';
+            iconColor = 'text-green-600';
+          }
+        } else {
+          // Fallback for Admin view or other cases
+          label = `${tx.sender?.username || 'Unknown'} to ${tx.receiver?.username || 'Unknown'}`;
+          amountPrefix = '';
+          amountColor = 'text-gray-900';
+          Icon = ArrowUpRight;
+          iconBg = 'bg-gray-100';
+          iconColor = 'text-gray-600';
+        }
+
+        return (
+          <Card key={tx.id} className="overflow-hidden border-none shadow-sm bg-white hover:shadow-md transition-shadow">
+            <CardContent className="p-4 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className={`p-2 rounded-full ${iconBg} ${iconColor}`}>
+                  <Icon size={20} />
+                </div>
+                <div>
+                  <p className="font-bold text-sm text-gray-900">{label}</p>
+                  <p className="text-xs text-gray-500">
+                    {new Date(tx.createdAt).toLocaleDateString('en-GB', {
+                      day: '2-digit',
+                      month: 'short',
+                      year: 'numeric',
+                      hour: '2-digit',
+                      minute: '2-digit'
+                    })}
+                  </p>
+                </div>
               </div>
-              <div>
-                <p className="font-bold text-sm">
-                  {tx.type === 'TOPUP' ? 'Wallet Top-up' : `Transfer to ${tx.receiver?.username}`}
-                </p>
-                <p className="text-xs text-gray-500">
-                  {new Date(tx.createdAt).toLocaleDateString('en-GB', {
-                    day: '2-digit',
-                    month: 'short',
-                    year: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit'
-                  })}
-                </p>
-              </div>
-            </div>
-            <p className={`font-bold ${tx.type === 'TOPUP' ? 'text-green-600' : 'text-red-600'}`}>
-              {tx.type === 'TOPUP' ? '+' : '-'} Rp {tx.amount.toLocaleString()}
-            </p>
-          </CardContent>
-        </Card>
-      ))}
+              <p className={`font-bold ${amountColor}`}>
+                {amountPrefix} Rp {tx.amount.toLocaleString()}
+              </p>
+            </CardContent>
+          </Card>
+        );
+      })}
     </div>
   );
 };

@@ -49,6 +49,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     onSuccess: () => {
       queryClient.setQueryData(['me'], null);
       queryClient.clear();
+      localStorage.removeItem('insignia_recipients');
       navigate({ to: '/login' });
     },
   });

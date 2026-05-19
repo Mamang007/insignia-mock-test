@@ -88,13 +88,17 @@ export const authController = {
 
   getMe: async (req: Request, res: Response) => {
     // AuthRequest from middleware puts user in req.user
-    const user = (req as any).user;
-    if (!user) {
+    const userPayload = (req as any).user;
+    if (!userPayload) {
       return res.status(401).json({ status: 'error', message: 'Not authenticated' });
     }
     res.json({
       status: 'success',
-      data: user
+      data: {
+        id: userPayload.userId,
+        username: userPayload.username,
+        role: userPayload.role
+      }
     });
   }
 };
