@@ -61,13 +61,12 @@ function UserManager() {
                   <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">User</th>
                   <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Role</th>
                   <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Current Balance</th>
-                  <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider text-right">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
                 {isLoading ? (
                   <tr>
-                    <td colSpan={4} className="px-6 py-12 text-center text-gray-500 italic">Loading users...</td>
+                    <td colSpan={3} className="px-6 py-12 text-center text-gray-500 italic">Loading users...</td>
                   </tr>
                 ) : paginatedUsers.length > 0 ? (
                   paginatedUsers.map((u) => (
@@ -99,16 +98,11 @@ function UserManager() {
                           </span>
                         </div>
                       </td>
-                      <td className="px-6 py-4 text-right">
-                        <Button variant="ghost" size="sm" className="text-primary hover:text-primary/80 font-medium">
-                          View Details
-                        </Button>
-                      </td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={4} className="px-6 py-12 text-center text-gray-500 italic">No users found</td>
+                    <td colSpan={3} className="px-6 py-12 text-center text-gray-500 italic">No users found</td>
                   </tr>
                 )}
               </tbody>

@@ -42,9 +42,6 @@ function AdminDashboard() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h2 className="text-3xl font-bold tracking-tight text-gray-900">Dashboard Overview</h2>
-        <div className="text-sm text-gray-500">
-          Last updated: {new Date().toLocaleTimeString()}
-        </div>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
