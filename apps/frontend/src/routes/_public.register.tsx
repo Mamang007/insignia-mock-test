@@ -1,4 +1,5 @@
 import { createFileRoute, redirect } from '@tanstack/react-router'
+import { RegisterForm } from '@/features/auth/components/RegisterForm'
 
 export const Route = createFileRoute('/_public/register')({
   beforeLoad: ({ context }) => {
@@ -16,9 +17,8 @@ function RegisterComponent() {
       <p className="text-gray-600 mb-8 text-center max-w-md">
         Join Insignia Wallet today and start managing your digital assets with ease.
       </p>
-      <div className="w-full max-w-sm p-6 bg-white rounded-xl shadow-sm border">
-        {/* Registration form will be implemented in a future task */}
-        <p className="text-center text-gray-400 italic">Registration form placeholder</p>
+      <div className="w-full max-w-sm p-6 bg-white rounded-xl shadow-sm border text-left">
+        <RegisterForm />
       </div>
     </div>
   )

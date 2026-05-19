@@ -75,3 +75,4 @@ docs/TDD.md
 dist/
 build/
 out/
+.tanstack/

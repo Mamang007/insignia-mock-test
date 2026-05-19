@@ -1,4 +1,5 @@
 import { createFileRoute, redirect } from '@tanstack/react-router'
+import { LoginForm } from '@/features/auth/components/LoginForm'
 
 export const Route = createFileRoute('/_public/login')({
   beforeLoad: ({ context }) => {
@@ -16,9 +17,8 @@ function LoginComponent() {
       <p className="text-gray-600 mb-8 text-center max-w-md">
         Please enter your credentials to access your account.
       </p>
-      <div className="w-full max-w-sm p-6 bg-white rounded-xl shadow-sm border">
-        {/* Login form will be implemented in a future task */}
-        <p className="text-center text-gray-400 italic">Login form placeholder</p>
+      <div className="w-full max-w-sm p-6 bg-white rounded-xl shadow-sm border text-left">
+        <LoginForm />
       </div>
     </div>
   )
