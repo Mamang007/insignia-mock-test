@@ -72,7 +72,7 @@ export const walletController = {
 
   checkUser: async (req: AuthRequest, res: Response) => {
     try {
-      const { username } = req.params;
+      const username = req.params.username as string;
       const { userId } = req.user!;
       const data = await walletService.checkUser(username, userId);
       res.json({ status: "success", data });

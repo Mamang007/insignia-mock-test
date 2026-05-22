@@ -1,5 +1,5 @@
 import prisma from '../lib/prisma';
-import { RegisterInput } from '../../../../modules/shared';
+import { RegisterInput } from 'shared';
 
 export const userRepository = {
   findByUsername: async (username: string) => {

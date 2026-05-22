@@ -17,6 +17,10 @@ const options: swaggerJsdoc.Options = {
         url: 'http://localhost:5173/api',
         description: 'Development server (via Vite proxy)',
       },
+      {
+        url: 'https://c9b4-103-3-222-80.ngrok-free.app/api',
+        description: 'Ngrok proxy server',
+      },
     ],
     components: {
       securitySchemes: {

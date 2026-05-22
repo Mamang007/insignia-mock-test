@@ -20,6 +20,7 @@ export default defineConfig(({ mode }) => {
     },
     envDir: '../../',
     server: {
+      allowedHosts: ['b0a3-103-3-222-80.ngrok-free.app'],
       proxy: {
         '/api': {
           target: `http://localhost:${env.PORT || 3000}`,

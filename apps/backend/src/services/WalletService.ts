@@ -1,6 +1,6 @@
 import { walletRepository } from '../repositories/WalletRepository';
 import { userRepository } from '../repositories/UserRepository';
-import { TopupInput, TransferInput } from '../../../../modules/shared';
+import { TopupInput, TransferInput } from 'shared';
 
 export const walletService = {
   getBalance: async (userId: string, role: string) => {

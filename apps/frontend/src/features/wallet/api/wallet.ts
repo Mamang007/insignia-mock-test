@@ -33,7 +33,7 @@ export const useTopup = () => {
 export const useCheckUser = () => {
   return useMutation({
     mutationFn: (username: string) => 
-      apiClient.get<ApiResponse<{ exists: boolean; username: string }>>(`/wallet/check-user/${username}`),
+      apiClient.get(`/wallet/check-user/${username}`) as Promise<ApiResponse<{ exists: boolean; username: string }>>,
   });
 };
 

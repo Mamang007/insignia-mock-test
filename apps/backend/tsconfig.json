@@ -11,6 +11,6 @@
     "moduleResolution": "node16",
     "types": ["node"]
   },
-  "include": ["src/**/*", "prisma/**/*"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules"]
 }

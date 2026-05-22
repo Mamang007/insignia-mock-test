@@ -18,19 +18,13 @@ exports.LoginSchema = zod_1.z.object({
     password: zod_1.z.string(),
 });
 exports.TopupSchema = zod_1.z.object({
-    amount: zod_1.z.number({
-        required_error: 'Invalid topup amount',
-        invalid_type_error: 'Invalid topup amount'
-    })
+    amount: zod_1.z.number()
         .min(1, 'Invalid topup amount')
         .max(10000000, 'Invalid topup amount'),
 });
 exports.TransferSchema = zod_1.z.object({
     toUsername: zod_1.z.string().min(3),
-    amount: zod_1.z.number({
-        required_error: 'Invalid Amount',
-        invalid_type_error: 'Invalid Amount'
-    })
+    amount: zod_1.z.number()
         .min(1, 'Invalid Amount'),
 });
 exports.API_ENDPOINTS = {

@@ -78,11 +78,11 @@ function UserStatsPage() {
                   />
                   <YAxis hide />
                   <Tooltip 
-                    formatter={(value: number) => [`Rp ${value.toLocaleString()}`, 'Amount']}
+                    formatter={(value: any) => [`Rp ${Number(value).toLocaleString()}`, 'Amount']}
                     contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
                   />
                   <Bar dataKey="amount" radius={[4, 4, 0, 0]}>
-                    {chartData.map((entry, index) => (
+                    {chartData.map((_, index) => (
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Bar>
