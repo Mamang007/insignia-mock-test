@@ -1,5 +1,5 @@
 import { createFileRoute, redirect, Outlet, useNavigate } from '@tanstack/react-router'
-import { useAuth } from '@/features/auth/context/auth-context'
+import { useAuth } from '@/features/auth/hooks/auth-context'
 import { useEffect } from 'react'
 
 export const Route = createFileRoute('/_public/_guest')({

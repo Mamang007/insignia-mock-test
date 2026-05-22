@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { ArrowUpRight, ArrowDownLeft, Plus } from 'lucide-react';
-import { useAuth } from '@/features/auth/context/auth-context';
+import { useAuth } from '@/features/auth/hooks/auth-context';
 
 interface Transaction {
   id: string;

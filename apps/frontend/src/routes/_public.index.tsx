@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useAuth } from "@/features/auth/context/auth-context";
+import { useAuth } from "@/features/auth/hooks/auth-context";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/_public/")({

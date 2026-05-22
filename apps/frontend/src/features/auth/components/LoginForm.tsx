@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
-import { useAuth } from '../context/auth-context';
+import { useAuth } from '../hooks/auth-context';
 
 export const LoginForm: React.FC = () => {
   const { login } = useAuth();

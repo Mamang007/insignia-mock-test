@@ -1,5 +1,5 @@
 import { createFileRoute, Link, Outlet, redirect } from '@tanstack/react-router'
-import { useAuth } from '@/features/auth/context/auth-context'
+import { useAuth } from '@/features/auth/hooks/auth-context'
 import { Button } from '@/components/ui/button'
 import { 
   LayoutDashboard, 

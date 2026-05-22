@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
-import { useAuth } from '../context/auth-context';
+import { useAuth } from '../hooks/auth-context';
 
 export const RegisterForm: React.FC = () => {
   const navigate = useNavigate();

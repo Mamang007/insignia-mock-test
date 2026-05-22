@@ -4,7 +4,7 @@ import { RouterProvider, createRouter } from '@tanstack/react-router'
 import { QueryClientProvider } from '@tanstack/react-query'
 import './index.css'
 import { queryClient } from '@/lib/query-client'
-import { AuthProvider, useAuth } from './features/auth/context/auth-context'
+import { AuthProvider, useAuth } from './features/auth/hooks/auth-context'
 
 // Import the generated route tree
 import { routeTree } from './routeTree.gen'

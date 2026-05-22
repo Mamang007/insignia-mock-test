@@ -13,7 +13,7 @@ import {
 } from 'recharts'
 import { useTopTransactions, useTopUsers } from '@/features/stats/api/stats'
 import { TransactionList } from '@/features/wallet/components/TransactionList'
-import { useAuth } from '@/features/auth/context/auth-context'
+import { useAuth } from '@/features/auth/hooks/auth-context'
 
 export const Route = createFileRoute('/user/stats')({
   component: UserStatsPage,
